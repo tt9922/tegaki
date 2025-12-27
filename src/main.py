@@ -1,6 +1,7 @@
 import flet as ft
 
 def main(page: ft.Page):
+    print("Main function started")
     page.title = "Hello World"
     page.add(ft.Text("Hello, World! from Flet on GitHub Pages"))
 
