@@ -1,6 +1,2 @@
 flet
-numpy
-scikit-learn
-pillow
-joblib
 
