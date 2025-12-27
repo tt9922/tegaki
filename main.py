@@ -1,4 +1,5 @@
 import flet as ft
+print("Script loaded - Top level")
 
 def main(page: ft.Page):
     print("Main function started")
