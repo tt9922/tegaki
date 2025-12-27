@@ -1,7 +1,7 @@
 import flet as ft
 import flet.canvas as cv
-import numpy as np
-import joblib
+# import numpy as np
+# import joblib
 import os
 import base64
 from PIL import Image, ImageDraw, ImageOps
@@ -28,66 +28,20 @@ class ImageProcessor:
                 r = 7
                 draw.ellipse([x-r, y-r, x+r, y+r], fill=255)
 
-        # 3. Crop to bounding box
-        bbox = image.getbbox()
-        if bbox:
-            image_cropped = image.crop(bbox)
-        else:
-            return None # Empty image
-
-        # 4. Resize and center to 28x28 (MNIST format)
-        # Create 28x28 black image
-        final_image = Image.new("L", (28, 28), 0)
-        
-        # Calculate resize factor (keep aspect ratio, fit within 20x20)
-        target_size = 20
-        w, h = image_cropped.size
-        scale = target_size / max(w, h)
-        new_w = int(w * scale)
-        new_h = int(h * scale)
-        
-        resized_char = image_cropped.resize((new_w, new_h), Image.Resampling.LANCZOS)
-
-        # Paste centered
-        x_offset = (28 - new_w) // 2
-        y_offset = (28 - new_h) // 2
-        final_image.paste(resized_char, (x_offset, y_offset))
-
-        # 5. Convert to numpy array and normalize
-        img_array = np.array(final_image).astype("float32")
-        img_array = img_array / 255.0
-        
-        # Flatten for MLP input
-        return img_array.reshape(1, -1), final_image
+        # Return dummy array (None) and the PIL image for debug display
+        return [], image
 
 class Predictor:
     def __init__(self):
-        self.model = None
-        self.load_model()
+        self.model = "Dummy"
+        # self.load_model()
 
     def load_model(self):
-        model_path = os.path.join(os.path.dirname(__file__), "assets", "mnist_model.pkl")
-        if os.path.exists(model_path):
-            try:
-                self.model = joblib.load(model_path)
-                print("Model loaded successfully.")
-            except Exception as e:
-                print(f"Failed to load model: {e}")
-        else:
-            print("Model file not found.")
+        pass
 
     def predict(self, img_array):
-        if self.model is None:
-            return None, "モデルがロードされていません"
-        
-        try:
-            prediction = self.model.predict(img_array)
-            probabilities = self.model.predict_proba(img_array)
-            predicted_digit = prediction[0]
-            confidence = probabilities[0][int(predicted_digit)]
-            return int(predicted_digit), confidence
-        except Exception as e:
-            return None, str(e)
+        # Return dummy prediction
+        return 7, 0.99
 
 def main(page: ft.Page):
     page.title = "手書き数字判定アプリ (MNIST)"
