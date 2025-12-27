@@ -1,0 +1,6 @@
+flet
+numpy
+scikit-learn
+pillow
+joblib
+opencv-python-headless
