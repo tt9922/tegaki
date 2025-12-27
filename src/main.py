@@ -4,7 +4,7 @@ import flet.canvas as cv
 # import joblib
 import os
 import base64
-from PIL import Image, ImageDraw, ImageOps
+# from PIL import Image, ImageDraw, ImageOps
 
 class State:
     def __init__(self):
@@ -14,22 +14,8 @@ class State:
 class ImageProcessor:
     @staticmethod
     def strokes_to_image_array(strokes, width=300, height=300):
-        # 1. Create a black background image (300x300, Grayscale)
-        image = Image.new("L", (width, height), 0)
-        draw = ImageDraw.Draw(image)
-
-        # 2. Draw white lines
-        for stroke in strokes:
-            if len(stroke) > 1:
-                draw.line(stroke, fill=255, width=25)
-            elif len(stroke) == 1:
-                # Draw a point
-                x, y = stroke[0]
-                r = 7
-                draw.ellipse([x-r, y-r, x+r, y+r], fill=255)
-
-        # Return dummy array (None) and the PIL image for debug display
-        return [], image
+        # Return dummy array (None) and None for image
+        return [], None
 
 class Predictor:
     def __init__(self):
@@ -178,12 +164,15 @@ def main(page: ft.Page):
              return
 
         # Show debug image (what the AI sees)
-        import io
-        buffered = io.BytesIO()
-        pil_bg.save(buffered, format="PNG")
-        img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
-        debug_image.src_base64 = img_str
-        debug_image.visible = True
+        if pil_bg:
+            import io
+            buffered = io.BytesIO()
+            pil_bg.save(buffered, format="PNG")
+            img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+            debug_image.src_base64 = img_str
+            debug_image.visible = True
+        else:
+            debug_image.visible = False
 
         # Predict
         digit, confidence = predictor.predict(img_array)
