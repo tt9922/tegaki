@@ -33,7 +33,7 @@ jobs:
           mkdir dist
           # Build the app to WASM
           # Note: We use --assets-dir to ensure the model is included
-          flet publish src/main.py --app-name "Tegaki Digit Recognizer" --app-short-name "Tegaki" --app-description "Handwritten Digit Recognition with Flet & Scikit-learn" --distpath ${{ github.workspace }}/dist --base-url /tegaki/ --web-renderer html
+          flet publish src/main.py --app-name "Tegaki Digit Recognizer" --app-short-name "Tegaki" --app-description "Handwritten Digit Recognition with Flet & Scikit-learn" --distpath ${{ github.workspace }}/dist --base-url /tegaki/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
